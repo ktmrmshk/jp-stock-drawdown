@@ -1,0 +1,33 @@
+[project]
+name = "jp-stock-drawdown"
+version = "0.1.0"
+description = "Japanese stock price drawdown analyzer CLI"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "yfinance>=0.2.50",
+    "pandas>=2.0",
+]
+
+[project.scripts]
+jp-dd = "jp_stock_drawdown.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jp_stock_drawdown"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100

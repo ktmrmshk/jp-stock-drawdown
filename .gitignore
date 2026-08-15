@@ -12,5 +12,8 @@ htmlcov/
 # macOS
 .DS_Store
 
+# ビルド生成物
+dist/
+
 # 実行時の一時生成物
 *.log
