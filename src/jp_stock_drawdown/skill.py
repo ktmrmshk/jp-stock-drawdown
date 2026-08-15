@@ -14,21 +14,39 @@ def read_packaged_skill() -> str:
     return resource.read_text(encoding="utf-8")
 
 
+_BLOCK_SCALAR_INDICATORS = {">", ">-", ">+", "|", "|-", "|+"}
+
+
 def parse_frontmatter(content: str) -> dict:
     if not content.startswith("---"):
         raise JpStockDrawdownError("skill file has no frontmatter")
     meta: dict = {}
     key: str | None = None
-    for line in content.splitlines()[1:]:
-        if line.strip() == "---":
+    block_lines: list[str] | None = None
+    for raw in content.splitlines()[1:]:
+        if raw.strip() == "---":
             break
-        if line[:1] in (" ", "\t") and key:
-            meta[key] = meta[key] + " " + line.strip()
+        indented = raw[:1] in (" ", "\t")
+        if block_lines is not None:
+            if indented or raw.strip() == "":
+                block_lines.append(raw.strip())
+                continue
+            meta[key] = " ".join(block_lines)
+            block_lines = None
+            key = None
+        if indented and key:
+            meta[key] = meta[key] + " " + raw.strip()
             continue
-        if ":" in line:
-            k, _, v = line.partition(":")
+        if ":" in raw:
+            k, _, v = raw.partition(":")
             key = k.strip()
-            meta[key] = v.strip()
+            value = v.strip()
+            if value in _BLOCK_SCALAR_INDICATORS:
+                block_lines = []
+                continue
+            meta[key] = value
+    if block_lines is not None and key is not None:
+        meta[key] = " ".join(block_lines)
     return meta
 
 

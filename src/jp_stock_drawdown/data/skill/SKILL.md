@@ -1,6 +1,7 @@
 ---
 name: jp-stock-drawdown
-description: Usage guide for the jp-dd CLI, a Japanese stock price drawdown analyzer.
+description: >-
+  Usage guide for the jp-dd CLI, a Japanese stock price drawdown analyzer.
   Use when asked about Japanese stock prices, all-time highs/lows, current price,
   or drawdown of listed companies (e.g. Toyota, 7203, Sony).
   Examples: "check Toyota's drawdown", "what are the high and current price of 7203".

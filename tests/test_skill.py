@@ -23,6 +23,22 @@ class TestPackagedSkill:
         meta = parse_frontmatter(read_packaged_skill())
         assert meta["name"] == "jp-stock-drawdown"
         assert meta["description"]
+        assert meta["description"].startswith("Usage guide")
+        assert "Examples:" in meta["description"]
+        assert ">-" not in meta["description"]
+
+    def test_block_scalar_description(self):
+        content = (
+            "---\n"
+            "name: jp-stock-drawdown\n"
+            "description: >-\n"
+            "  Line one.\n"
+            "  Line two with colon: here.\n"
+            "---\n"
+        )
+        meta = parse_frontmatter(content)
+        assert meta["name"] == "jp-stock-drawdown"
+        assert meta["description"] == "Line one. Line two with colon: here."
 
     def test_ac_s01_name_matches(self):
         meta = validate_frontmatter(read_packaged_skill())
