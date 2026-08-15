@@ -44,4 +44,7 @@ uv run jp-dd skill install
 ## 状態
 
 - [x] SPECドキュメント
-- [ ] 実装（Agentによる）
+- [x] 実装（Agentによる）
+  - [x] `uv run jp-dd quote 7203` で株価指標の出力
+  - [x] `uv run jp-dd skill install` でAgent用Skillのインストール
+  - [x] `uv run pytest` / `uv run ruff check .` 成功
